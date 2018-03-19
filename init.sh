@@ -61,7 +61,6 @@ C_SUC="\033[32m"
 C_ERR="\033[31m"
 C_RES="\033[0m"
 
-ANSIBLE_TAGS=""
 SCRIPTS_DIRECTORY="$(dirname $0)"
 
 ##}}}#######################################################################
@@ -92,7 +91,7 @@ fi
 if [[ -f "main.yml" ]]; then
   echo ""
   echo "${C_HIL}Installing Luciditi config...${C_RES}"
-  ansible-playbook main.yml -i inventory -K --tags "$ANSIBLE_TAGS"
+  ansible-playbook main.yml -i inventory -K
 fi
 
 exit 0
