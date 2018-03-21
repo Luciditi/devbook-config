@@ -20,7 +20,7 @@
   # ROLES
   roles: []
   # @TODO: place roles
-    #- { role: 'roles/luciditi.tags', devbook_tag: 'tag' }
+    #- { role: 'roles/luciditi.tags', devbook_tag: 'tag', tags: ['tag'] }
 
   # TASKS
   tasks: []
