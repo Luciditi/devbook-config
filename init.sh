@@ -111,7 +111,9 @@ fi
 
 # Cleanup & quit
 echo ""
-echo "${C_HIL}Cleanup...${C_RES}"
-rm "$DEVBOOK_TAG_FILE"
+if [[ ! -f "$DEVBOOK_TAG_FILE" ]]; then
+  echo "${C_HIL}Cleanup...${C_RES}"
+  rm "$DEVBOOK_TAG_FILE"
+fi
 
 exit 0
