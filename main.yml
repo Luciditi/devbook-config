@@ -20,7 +20,11 @@
   # ROLES
   roles: []
   # @TODO: place roles
+    #- { role: 'roles/luciditi.tags', devbook_tag: 'tag' }
 
   # TASKS
   tasks: []
   # @TODO: place tasks
+    #- name: Marking Devbook Progress
+    #  shell: echo 'tag' >> .devbook.tags
+    #  tags: ['tag']

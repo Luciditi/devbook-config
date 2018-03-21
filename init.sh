@@ -51,6 +51,20 @@ ansible_var() {
   fi
 }
 
+# Retrieve the list of skipped and/or finished tags.
+devbook_tags() {
+  if [[ -f "$DEVBOOK_TAG_FILE" && ! -f "$DEVBOOK_SKIP_FILE" ]]; then
+    sed -e ':a' -e 'N' -e '$!ba' -e 's/\n/,/g' "$DEVBOOK_TAG_FILE"
+  elif [[ ! -f "$DEVBOOK_TAG_FILE" && -f "$DEVBOOK_SKIP_FILE" ]]; then
+    sed -e ':a' -e 'N' -e '$!ba' -e 's/\n/,/g' "$DEVBOOK_SKIP_FILE"
+  elif [[ -f "$DEVBOOK_TAG_FILE" && -f "$DEVBOOK_SKIP_FILE" ]]; then
+    MERGE=$(mktemp)
+    cat "$DEVBOOK_TAG_FILE" "$DEVBOOK_SKIP_FILE" > "$MERGE"
+    sed -e ':a' -e 'N' -e '$!ba' -e 's/\n/,/g' "$MERGE"
+    rm "$MERGE"
+  fi
+}
+
 ############################################################################
 # VARS
 ############################################################################
@@ -91,7 +105,13 @@ fi
 if [[ -f "main.yml" ]]; then
   echo ""
   echo "${C_HIL}Installing Luciditi config...${C_RES}"
-  ansible-playbook main.yml -i inventory -K
+  TAGS=$(devbook_tags)
+  ansible-playbook main.yml -i inventory -K --skip-tags "$TAGS"
 fi
+
+# Cleanup & quit
+echo ""
+echo "${C_HIL}Cleanup...${C_RES}"
+rm "$DEVBOOK_TAG_FILE"
 
 exit 0
