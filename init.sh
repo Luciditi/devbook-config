@@ -75,6 +75,9 @@ C_SUC="\033[32m"
 C_ERR="\033[31m"
 C_RES="\033[0m"
 
+DEVBOOK_NOTES="NOTES.md"
+DEVBOOK_TAG_FILE=".devbook.tags"
+DEVBOOK_SKIP_FILE=".devbook.skip"
 SCRIPTS_DIRECTORY="$(dirname $0)"
 
 ##}}}#######################################################################
@@ -109,11 +112,22 @@ if [[ -f "main.yml" ]]; then
   ansible-playbook main.yml -i inventory -K --skip-tags "$TAGS"
 fi
 
-# Cleanup & quit
+
+# Cleanup
 echo ""
-if [[ ! -f "$DEVBOOK_TAG_FILE" ]]; then
+if [[ -f "$DEVBOOK_TAG_FILE" ]]; then
   echo "${C_HIL}Cleanup...${C_RES}"
   rm "$DEVBOOK_TAG_FILE"
+fi
+
+
+# Notes
+if [[ -f "$DEVBOOK_NOTES" ]]; then
+  if [[ -x "$(command -v vcat)" ]]; then
+    vcat "$DEVBOOK_NOTES"
+  else
+    cat "$DEVBOOK_NOTES"
+  fi
 fi
 
 exit 0
