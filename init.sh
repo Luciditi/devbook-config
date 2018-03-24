@@ -123,8 +123,8 @@ fi
 
 # Notes
 if [[ -f "$DEVBOOK_NOTES" ]]; then
-  if [[ -x "$(command -v vcat)" ]]; then
-    vcat "$DEVBOOK_NOTES"
+  if [[ -x $(command -v "$HOME/.bin/vcat") ]]; then
+    "$HOME/.bin/vcat" "$DEVBOOK_NOTES"
   else
     cat "$DEVBOOK_NOTES"
   fi
